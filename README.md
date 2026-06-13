@@ -10,7 +10,6 @@ Prime Knot Periodic Table is a visual knot theory workbench. It shows prime knot
 
 Live site: <https://frankstop.github.io/PrimeKnots/>
 
-Repo: <https://github.com/frankstop/PrimeKnots>
 
 ## What It Does
 

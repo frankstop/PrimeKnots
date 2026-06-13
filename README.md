@@ -3,8 +3,14 @@
 [![Pages](https://img.shields.io/badge/GitHub%20Pages-ready-2f6f73)](https://pages.github.com/)
 [![Static App](https://img.shields.io/badge/app-static%20HTML%2FCSS%2FJS-b6472f)](#)
 [![License: MIT](https://img.shields.io/badge/license-MIT-48525c)](LICENSE)
+[![Prime knots](https://img.shields.io/badge/prime%20knots-36-b6472f)](#what-it-does)
+[![Max crossings](https://img.shields.io/badge/max%20crossings-8-2f6f73)](#what-it-does)
 
 Prime Knot Periodic Table is a visual knot theory workbench. It shows prime knots through eight crossings as a periodic table, then lets learners inspect families, invariants, rule gates, and atlas-backed proof notes.
+
+Live site: <https://frankstop.github.io/PrimeKnots/>
+
+Repo: <https://github.com/frankstop/PrimeKnots>
 
 ## What It Does
 

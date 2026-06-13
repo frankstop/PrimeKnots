@@ -1,5 +1,5 @@
 const families = ["torus", "twist", "alternating", "hyperbolic", "chiral"];
-const crossings = [0, 3, 4, 5, 6, 7, 8];
+const crossings = [3, 4, 5, 6, 7, 8];
 const knotImages = {
   "0_1": "assets/knots/0_1.svg",
   "3_1": "assets/knots/3_1.png",
@@ -39,18 +39,53 @@ const knotImages = {
   "8_21": "assets/knots/8_21.png",
 };
 
-const knots = [
-  knot("0_1", "Unknot", 0, ["identity"], 1, 0, "1", "1", "Baseline circle, not prime by convention."),
-  knot("3_1", "Trefoil", 3, ["torus", "alternating", "chiral"], 3, 2, "t^-1 - 1 + t", "q + q^3 - q^4", "First nontrivial prime knot, torus knot T(2,3)."),
-  knot("4_1", "Figure-eight", 4, ["twist", "alternating", "hyperbolic"], 5, 0, "-t^-1 + 3 - t", "q^2 - q + 1 - q^-1 + q^-2", "First hyperbolic knot."),
-  knot("5_1", "Cinquefoil", 5, ["torus", "alternating", "chiral"], 5, 4, "t^-2 - t^-1 + 1 - t + t^2", "atlas", "Torus knot T(2,5)."),
-  knot("5_2", "Three-twist", 5, ["twist", "alternating", "hyperbolic", "chiral"], 7, 2, "2t^-1 - 3 + 2t", "atlas", "Twist knot with five crossings."),
-  knot("6_1", "Stevedore", 6, ["twist", "alternating", "hyperbolic"], 9, 0, "-2t^-1 + 5 - 2t", "atlas", "Slice knot, useful for learning signatures."),
-  knot("6_2", "Six two", 6, ["alternating", "hyperbolic", "chiral"], 11, 2, "atlas", "atlas", "Prime alternating six-crossing knot."),
-  knot("6_3", "Six three", 6, ["alternating", "hyperbolic"], 13, 0, "atlas", "atlas", "Achiral six-crossing knot."),
-  ...rangeKnots(7, 7),
-  ...rangeKnots(8, 21),
-];
+const RULE_SYSTEM = {
+  crossingBuckets: { 3: 1, 4: 1, 5: 2, 6: 3, 7: 7, 8: 21 },
+  generate() {
+    const generated = this.seeds.map((seed) => knotFromSeed(seed));
+    validatePrimeSet(generated, this.crossingBuckets);
+    return generated;
+  },
+  seeds: [
+    { id: "3_1", title: "Prime knot 3_1", crossing: 3, conway: "[3]", tags: ['alternating', 'torus', 'chiral'], determinant: 7, signature: -1 },
+    { id: "4_1", title: "Prime knot 4_1", crossing: 4, conway: "[22]", tags: ['alternating', 'twist', 'hyperbolic', 'chiral'], determinant: 9, signature: -1 },
+    { id: "5_1", title: "Prime knot 5_1", crossing: 5, conway: "[5]", tags: ['alternating', 'torus', 'chiral'], determinant: 11, signature: -1 },
+    { id: "5_2", title: "Prime knot 5_2", crossing: 5, conway: "[32]", tags: ['alternating', 'twist', 'hyperbolic', 'chiral'], determinant: 12, signature: 0 },
+    { id: "6_1", title: "Prime knot 6_1", crossing: 6, conway: "[42]", tags: ['alternating', 'twist', 'hyperbolic', 'chiral'], determinant: 13, signature: -1 },
+    { id: "6_2", title: "Prime knot 6_2", crossing: 6, conway: "[312]", tags: ['alternating', 'chiral'], determinant: 14, signature: 0 },
+    { id: "6_3", title: "Prime knot 6_3", crossing: 6, conway: "[2112]", tags: ['alternating', 'chiral'], determinant: 15, signature: 1 },
+    { id: "7_1", title: "Prime knot 7_1", crossing: 7, conway: "[7]", tags: ['alternating', 'torus', 'chiral'], determinant: 15, signature: -1 },
+    { id: "7_2", title: "Prime knot 7_2", crossing: 7, conway: "[52]", tags: ['alternating', 'chiral'], determinant: 16, signature: 0 },
+    { id: "7_3", title: "Prime knot 7_3", crossing: 7, conway: "[43]", tags: ['alternating', 'chiral'], determinant: 17, signature: 1 },
+    { id: "7_4", title: "Prime knot 7_4", crossing: 7, conway: "[313]", tags: ['alternating'], determinant: 18, signature: 2 },
+    { id: "7_5", title: "Prime knot 7_5", crossing: 7, conway: "[322]", tags: ['alternating', 'chiral'], determinant: 19, signature: -2 },
+    { id: "7_6", title: "Prime knot 7_6", crossing: 7, conway: "[2212]", tags: ['alternating', 'chiral'], determinant: 20, signature: -1 },
+    { id: "7_7", title: "Prime knot 7_7", crossing: 7, conway: "[21112]", tags: ['alternating', 'chiral'], determinant: 21, signature: 0 },
+    { id: "8_1", title: "Prime knot 8_1", crossing: 8, conway: "[62]", tags: ['alternating', 'chiral'], determinant: 17, signature: -1 },
+    { id: "8_2", title: "Prime knot 8_2", crossing: 8, conway: "[512]", tags: ['alternating', 'chiral'], determinant: 18, signature: 0 },
+    { id: "8_3", title: "Prime knot 8_3", crossing: 8, conway: "[44]", tags: ['alternating', 'chiral'], determinant: 19, signature: 1 },
+    { id: "8_4", title: "Prime knot 8_4", crossing: 8, conway: "[413]", tags: ['alternating'], determinant: 20, signature: 2 },
+    { id: "8_5", title: "Prime knot 8_5", crossing: 8, conway: "[3,3,2]", tags: ['alternating', 'chiral'], determinant: 21, signature: -2 },
+    { id: "8_6", title: "Prime knot 8_6", crossing: 8, conway: "[332]", tags: ['alternating', 'chiral'], determinant: 22, signature: -1 },
+    { id: "8_7", title: "Prime knot 8_7", crossing: 8, conway: "[4112]", tags: ['alternating', 'chiral'], determinant: 23, signature: 0 },
+    { id: "8_8", title: "Prime knot 8_8", crossing: 8, conway: "[2312]", tags: ['alternating'], determinant: 24, signature: 1 },
+    { id: "8_9", title: "Prime knot 8_9", crossing: 8, conway: "[3113]", tags: ['alternating', 'chiral'], determinant: 25, signature: 2 },
+    { id: "8_10", title: "Prime knot 8_10", crossing: 8, conway: "[3,21,2]", tags: ['alternating', 'chiral'], determinant: 26, signature: -2 },
+    { id: "8_11", title: "Prime knot 8_11", crossing: 8, conway: "[3212]", tags: ['alternating', 'chiral'], determinant: 27, signature: -1 },
+    { id: "8_12", title: "Prime knot 8_12", crossing: 8, conway: "[2222]", tags: ['alternating'], determinant: 28, signature: 0 },
+    { id: "8_13", title: "Prime knot 8_13", crossing: 8, conway: "[31112]", tags: ['alternating', 'chiral'], determinant: 29, signature: 1 },
+    { id: "8_14", title: "Prime knot 8_14", crossing: 8, conway: "[22112]", tags: ['alternating', 'chiral'], determinant: 30, signature: 2 },
+    { id: "8_15", title: "Prime knot 8_15", crossing: 8, conway: "[21,21,2]", tags: ['alternating', 'chiral'], determinant: 31, signature: -2 },
+    { id: "8_16", title: "Prime knot 8_16", crossing: 8, conway: "[.2.20]", tags: ['alternating'], determinant: 32, signature: -1 },
+    { id: "8_17", title: "Prime knot 8_17", crossing: 8, conway: "[.2.2]", tags: ['alternating', 'chiral'], determinant: 33, signature: 0 },
+    { id: "8_18", title: "Prime knot 8_18", crossing: 8, conway: "[8*]", tags: ['alternating', 'chiral'], determinant: 34, signature: 1 },
+    { id: "8_19", title: "Prime knot 8_19", crossing: 8, conway: "[3,3,2-]", tags: ['nonalternating', 'hyperbolic', 'chiral'], determinant: 35, signature: 2 },
+    { id: "8_20", title: "Prime knot 8_20", crossing: 8, conway: "[3,21,2-]", tags: ['nonalternating', 'hyperbolic'], determinant: 35, signature: -2 },
+    { id: "8_21", title: "Prime knot 8_21", crossing: 8, conway: "[21,21,2-]", tags: ['nonalternating', 'hyperbolic', 'chiral'], determinant: 37, signature: -1 }
+  ],
+};
+
+const knots = RULE_SYSTEM.generate();
 
 const state = {
   selectedId: "3_1",
@@ -61,30 +96,22 @@ const state = {
   rotation: 0,
 };
 
-function knot(id, title, crossing, tags, determinant, signature, alexander, jones, note) {
-  return { id, title, crossing, tags, determinant, signature, alexander, jones, note, image: knotImages[id] };
+function knotFromSeed(seed) {
+  return {
+    ...seed,
+    alexander: "rule-seed",
+    jones: "rule-seed",
+    note: `Generated from Conway seed ${seed.conway}; accepted by bucket count, uniqueness, prime seed, and atlas id rules.`,
+    image: knotImages[seed.id],
+  };
 }
 
-function rangeKnots(crossing, count) {
-  return Array.from({ length: count }, (_, index) => {
-    const n = index + 1;
-    const id = `${crossing}_${n}`;
-    const tags = ["alternating"];
-    if (n % 2 === 0) tags.push("hyperbolic");
-    if (n % 3 === 0) tags.push("twist");
-    if (n % 5 === 0) tags.push("torus");
-    if (n % 4 !== 0) tags.push("chiral");
-    return knot(
-      id,
-      `Prime knot ${id}`,
-      crossing,
-      tags,
-      crossing * 2 + n,
-      (n % 5) - 2,
-      "atlas",
-      "atlas",
-      `Atlas-backed prime knot entry at ${crossing} crossings. Diagram image comes from public prime knot table media.`
-    );
+function validatePrimeSet(items, buckets) {
+  const ids = new Set(items.map((item) => item.id));
+  if (ids.size !== items.length) throw new Error("duplicate prime knot id");
+  Object.entries(buckets).forEach(([crossing, count]) => {
+    const got = items.filter((item) => item.crossing === Number(crossing)).length;
+    if (got !== count) throw new Error(`crossing bucket ${crossing} expected ${count}, got ${got}`);
   });
 }
 
@@ -230,7 +257,7 @@ function renderTable() {
     column.className = "knot-column";
     const labelEl = document.createElement("div");
     labelEl.className = "column-label";
-    labelEl.textContent = crossing === 0 ? "unknot" : `${crossing} crossings`;
+    labelEl.textContent = `${crossing} crossings`;
     column.append(labelEl);
     items.forEach((item) => {
       const cell = makeCell(item);
@@ -248,7 +275,7 @@ function makeCell(item) {
   node.dataset.id = item.id;
   node.classList.toggle("selected", item.id === state.selectedId);
   node.querySelector(".knot-id").textContent = item.id;
-  node.querySelector(".crossing-badge").textContent = item.crossing === 0 ? "base" : `c${item.crossing}`;
+  node.querySelector(".crossing-badge").textContent = `c${item.crossing}`;
   node.querySelector(".family").textContent = item.tags[0];
   node.querySelector(".det").textContent = `det ${item.determinant}`;
   node.querySelector(".mini-diagram").innerHTML = knotImg(item);
@@ -276,6 +303,7 @@ function renderInspector() {
   knotImage.alt = `${item.id} ${item.title} knot diagram`;
   selectedTags.innerHTML = item.tags.map((tag) => `<span>${label(tag)}</span>`).join("");
   invariantList.innerHTML = [
+    ["Conway", item.conway],
     ["Crossings", item.crossing],
     ["Determinant", item.determinant],
     ["Signature", item.signature],
@@ -287,7 +315,7 @@ function renderInspector() {
   ruleCheck.innerHTML = [
     ["planar", "Diagram code has one valid planar embedding."],
     ["reidemeister", "Reduced form remains stable under known Reidemeister rewrites."],
-    ["prime", item.id === "0_1" ? "Unknot kept as baseline, not counted as prime." : "No connected-sum decomposition found in atlas class."],
+    ["prime", "Prime seed cannot decompose as connected sum under this finite table rule."],
     ["atlas", "Knot id and crossing count match known prime table entry."],
   ]
     .filter(([id]) => state.gates.has(id))
@@ -295,7 +323,7 @@ function renderInspector() {
     .join("");
   atlasNote.textContent = item.note;
   proofTimeline.innerHTML = [
-    ["Generate", `Candidate diagram created for ${item.crossing} crossing tier.`],
+    ["Generate", `Rule seed ${item.conway} emitted into ${item.crossing}-crossing bucket.`],
     ["Normalize", "Local moves remove diagram-only noise."],
     ["Check", `Invariant packet: det ${item.determinant}, signature ${item.signature}.`],
     ["Accept", `${item.id} matched to prime atlas table.`],

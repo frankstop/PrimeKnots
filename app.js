@@ -1,5 +1,43 @@
 const families = ["torus", "twist", "alternating", "hyperbolic", "chiral"];
 const crossings = [0, 3, 4, 5, 6, 7, 8];
+const knotImages = {
+  "0_1": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Unknot.svg/180px-Unknot.svg.png",
+  "3_1": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Blue_Trefoil_Knot.png/180px-Blue_Trefoil_Knot.png",
+  "4_1": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Blue_Figure-Eight_Knot.png/180px-Blue_Figure-Eight_Knot.png",
+  "5_1": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Blue_Cinquefoil_Knot.png/180px-Blue_Cinquefoil_Knot.png",
+  "5_2": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Blue_Three-Twist_Knot.png/180px-Blue_Three-Twist_Knot.png",
+  "6_1": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Blue_Stevedore_Knot.png/180px-Blue_Stevedore_Knot.png",
+  "6_2": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Blue_6_2_Knot.png/180px-Blue_6_2_Knot.png",
+  "6_3": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Blue_6_3_Knot.png/180px-Blue_6_3_Knot.png",
+  "7_1": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Blue_7_1_Knot.png/180px-Blue_7_1_Knot.png",
+  "7_2": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Blue_7_2_Knot.png/180px-Blue_7_2_Knot.png",
+  "7_3": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/7-3_knot.svg/180px-7-3_knot.svg.png",
+  "7_4": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Celtic-knot-linear-7crossings.svg/180px-Celtic-knot-linear-7crossings.svg.png",
+  "7_5": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/7-5_knot.svg/180px-7-5_knot.svg.png",
+  "7_6": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/7-6_knot.svg/180px-7-6_knot.svg.png",
+  "7_7": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/7-7_knot.svg/180px-7-7_knot.svg.png",
+  "8_1": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Blue_8_1_Knot.png/180px-Blue_8_1_Knot.png",
+  "8_2": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Knot-8-2.png/180px-Knot-8-2.png",
+  "8_3": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Knot_8_3.svg/180px-Knot_8_3.svg.png",
+  "8_4": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/8-4_Knot.svg/180px-8-4_Knot.svg.png",
+  "8_5": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Knot8-5.png/180px-Knot8-5.png",
+  "8_6": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/8-6_knot.svg/180px-8-6_knot.svg.png",
+  "8_7": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Knot87.png/180px-Knot87.png",
+  "8_8": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Knot88.png/180px-Knot88.png",
+  "8_9": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Knot89.png/180px-Knot89.png",
+  "8_10": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Knot810.png/180px-Knot810.png",
+  "8_11": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Knot811.png/180px-Knot811.png",
+  "8_12": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/8crossings-rose-limacon-knot.svg/180px-8crossings-rose-limacon-knot.svg.png",
+  "8_13": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Knot813.png/180px-Knot813.png",
+  "8_14": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Knot814.png/180px-Knot814.png",
+  "8_15": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/8crossings-two-trefoils.svg/180px-8crossings-two-trefoils.svg.png",
+  "8_16": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/8-16_knot.svg/180px-8-16_knot.svg.png",
+  "8_17": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/8_17_Knot.svg/180px-8_17_Knot.svg.png",
+  "8_18": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/8crossing-symmetrical.svg/180px-8crossing-symmetrical.svg.png",
+  "8_19": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/8crossing-symmetrical-nonalternating.svg/180px-8crossing-symmetrical-nonalternating.svg.png",
+  "8_20": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Knot_8_20.svg/180px-Knot_8_20.svg.png",
+  "8_21": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Lissajous_8_21_Knot.png/180px-Lissajous_8_21_Knot.png",
+};
 
 const knots = [
   knot("0_1", "Unknot", 0, ["identity"], 1, 0, "1", "1", "Baseline circle, not prime by convention."),
@@ -24,7 +62,7 @@ const state = {
 };
 
 function knot(id, title, crossing, tags, determinant, signature, alexander, jones, note) {
-  return { id, title, crossing, tags, determinant, signature, alexander, jones, note };
+  return { id, title, crossing, tags, determinant, signature, alexander, jones, note, image: knotImages[id] };
 }
 
 function rangeKnots(crossing, count) {
@@ -45,7 +83,7 @@ function rangeKnots(crossing, count) {
       (n % 5) - 2,
       "atlas",
       "atlas",
-      `Atlas-backed prime knot entry at ${crossing} crossings. Diagram glyph is deterministic, not a proof drawing.`
+      `Atlas-backed prime knot entry at ${crossing} crossings. Diagram image comes from public prime knot table media.`
     );
   });
 }
@@ -62,8 +100,7 @@ const ruleCheck = document.querySelector("#ruleCheck");
 const atlasNote = document.querySelector("#atlasNote");
 const visibleCount = document.querySelector("#visibleCount");
 const proofTimeline = document.querySelector("#proofTimeline");
-const canvas = document.querySelector("#knotCanvas");
-const ctx = canvas.getContext("2d");
+const knotImage = document.querySelector("#knotImage");
 
 init();
 
@@ -72,7 +109,6 @@ function init() {
   renderTable();
   renderInspector();
   bindEvents();
-  requestAnimationFrame(drawLoop);
 }
 
 function bindEvents() {
@@ -187,7 +223,7 @@ function renderTable() {
       items: knots.filter((item) => item.crossing === crossing && matches(item)),
     }))
     .filter((column) => column.items.length > 0);
-  table.style.gridTemplateColumns = `repeat(${Math.max(1, columnsToRender.length)}, minmax(116px, 1fr))`;
+  table.style.gridTemplateColumns = `repeat(${Math.max(1, columnsToRender.length)}, minmax(96px, 1fr))`;
 
   columnsToRender.forEach(({ crossing, items }) => {
     const column = document.createElement("div");
@@ -215,7 +251,7 @@ function makeCell(item) {
   node.querySelector(".crossing-badge").textContent = item.crossing === 0 ? "base" : `c${item.crossing}`;
   node.querySelector(".family").textContent = item.tags[0];
   node.querySelector(".det").textContent = `det ${item.determinant}`;
-  node.querySelector(".mini-diagram").innerHTML = miniSvg(item);
+  node.querySelector(".mini-diagram").innerHTML = knotImg(item);
   node.addEventListener("click", () => {
     state.selectedId = item.id;
     renderTable();
@@ -236,6 +272,8 @@ function renderInspector() {
   const item = getSelected();
   selectedName.textContent = item.id;
   selectedTitle.textContent = item.title;
+  knotImage.src = item.image;
+  knotImage.alt = `${item.id} ${item.title} knot diagram`;
   selectedTags.innerHTML = item.tags.map((tag) => `<span>${label(tag)}</span>`).join("");
   invariantList.innerHTML = [
     ["Crossings", item.crossing],
@@ -270,63 +308,8 @@ function getSelected() {
   return knots.find((item) => item.id === state.selectedId) || knots[1];
 }
 
-function miniSvg(item) {
-  const seed = seedFrom(item.id);
-  const loops = Math.max(2, Math.min(7, item.crossing || 2));
-  const pts = Array.from({ length: 160 }, (_, i) => {
-    const t = (i / 159) * Math.PI * 2;
-    const r = 27 + 8 * Math.sin(loops * t + seed);
-    const x = 54 + Math.cos(t + seed / 9) * r;
-    const y = 42 + Math.sin(t * ((seed % 3) + 1) / 2 + seed) * (r * 0.62);
-    return `${x.toFixed(1)},${y.toFixed(1)}`;
-  }).join(" ");
-  return `<svg viewBox="0 0 108 84" role="img" aria-label="${item.id} mini diagram">
-    <polyline points="${pts}" fill="none" stroke="oklch(0.35 0.02 245)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity=".18"/>
-    <polyline points="${pts}" fill="none" stroke="oklch(0.58 0.19 34)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>`;
-}
-
-function drawLoop() {
-  state.rotation += 0.01;
-  drawKnot(getSelected(), state.rotation);
-  requestAnimationFrame(drawLoop);
-}
-
-function drawKnot(item, rotation) {
-  const width = canvas.width;
-  const height = canvas.height;
-  ctx.clearRect(0, 0, width, height);
-  const seed = seedFrom(item.id);
-  const p = Math.max(2, item.crossing % 5 || 2);
-  const q = Math.max(3, (seed % 7) + 3);
-  const points = [];
-
-  for (let i = 0; i < 520; i += 1) {
-    const t = (i / 520) * Math.PI * 2;
-    const x3 = Math.cos(p * t + rotation) * (120 + 28 * Math.cos(q * t));
-    const y3 = Math.sin(p * t + rotation) * (86 + 26 * Math.cos(q * t));
-    const z3 = Math.sin(q * t + seed) * 70;
-    const scale = 1 + z3 / 420;
-    points.push({
-      x: width / 2 + x3 * scale,
-      y: height / 2 + y3 * scale,
-      z: z3,
-    });
-  }
-
-  points.sort((a, b) => a.z - b.z);
-  for (let i = 1; i < points.length; i += 1) {
-    const a = points[i - 1];
-    const b = points[i];
-    const light = 58 + Math.round((b.z + 80) / 5);
-    ctx.strokeStyle = `oklch(${Math.min(72, light) / 100} 0.16 34)`;
-    ctx.lineWidth = 9 + (b.z + 80) / 42;
-    ctx.lineCap = "round";
-    ctx.beginPath();
-    ctx.moveTo(a.x, a.y);
-    ctx.lineTo(b.x, b.y);
-    ctx.stroke();
-  }
+function knotImg(item) {
+  return `<img src="${item.image}" alt="${item.id} knot diagram" loading="lazy" referrerpolicy="no-referrer" />`;
 }
 
 function label(value) {
@@ -339,10 +322,6 @@ function label(value) {
 function countFamily(value) {
   if (value === "all") return knots.length;
   return knots.filter((item) => item.tags.includes(value)).length;
-}
-
-function seedFrom(text) {
-  return text.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
 }
 
 async function copyOrDownload(payload, filename) {

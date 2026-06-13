@@ -15,8 +15,8 @@ Live site: <https://frankstop.github.io/PrimeKnots/>
 
 - Displays 36 entries: unknot plus prime knots through 8 crossings.
 - Filters by crossing count and family tags.
-- Renders deterministic SVG mini diagrams for every cell.
-- Shows animated canvas knot previews for selected knots.
+- Shows real knot diagrams from public Wikimedia/Wikipedia prime-knot table media.
+- Shows enlarged atlas-style diagrams for selected knots.
 - Explains rule gates: planar validity, Reidemeister stability, prime check, atlas match.
 - Exports selected knot metadata as JSON.
 
@@ -54,6 +54,7 @@ This repo is ready for branch-based Pages. Enable Pages with `main` as the sourc
 - [KnotInfo](https://knotinfo.math.indiana.edu/)
 - [SnapPy](https://snappy.computop.org/)
 - [KnotPlot](https://knotplot.com/)
+- [Wikipedia list of prime knots](https://en.wikipedia.org/wiki/List_of_prime_knots)
 
 ## License
 

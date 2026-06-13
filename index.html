@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Prime Knot Periodic Table: a visual knot theory workbench for browsing, filtering, and learning prime knots through eight crossings."
+    />
+    <meta property="og:title" content="Prime Knot Periodic Table" />
+    <meta
+      property="og:description"
+      content="Browse prime knots by crossing number, inspect invariants, and see rule checks behind each atlas entry."
+    />
+    <meta property="og:type" content="website" />
+    <title>Prime Knot Periodic Table</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="rail" aria-label="Knot controls">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <p class="brand-name">Prime Knot</p>
+            <p class="brand-sub">Periodic Table</p>
+          </div>
+        </div>
+
+        <label class="field-label" for="search">Find knot</label>
+        <div class="search-row">
+          <input id="search" type="search" placeholder="3_1, torus, 5" />
+          <button id="clearSearch" type="button" title="Clear search" aria-label="Clear search">
+            ×
+          </button>
+        </div>
+
+        <div class="control-group">
+          <p class="group-title">Crossings</p>
+          <div id="crossingFilters" class="chip-grid" aria-label="Crossing filters"></div>
+        </div>
+
+        <div class="control-group">
+          <p class="group-title">Families</p>
+          <div id="familyFilters" class="stacked-options" aria-label="Family filters"></div>
+        </div>
+
+        <div class="control-group">
+          <p class="group-title">Rule Gates</p>
+          <div id="ruleGates" class="rule-list"></div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <h1>Prime knot periodic table</h1>
+            <p>
+              Browse every prime knot through 8 crossings. Each cell carries source
+              match, invariant checks, and a readable rule log.
+            </p>
+          </div>
+          <div class="top-actions">
+            <button id="resetFilters" type="button">Reset</button>
+            <button id="exportSelection" type="button" class="primary">Export selected</button>
+          </div>
+        </header>
+
+        <section class="summary-strip" aria-label="Dataset summary">
+          <div>
+            <span id="visibleCount" class="summary-value">36</span>
+            <span class="summary-label">visible knots</span>
+          </div>
+          <div>
+            <span class="summary-value">8</span>
+            <span class="summary-label">max crossings</span>
+          </div>
+          <div>
+            <span class="summary-value">0</span>
+            <span class="summary-label">false claims</span>
+          </div>
+        </section>
+
+        <section class="table-stage" aria-label="Prime knot table">
+          <div id="periodicTable" class="periodic-table"></div>
+        </section>
+
+        <section class="proof-floor" aria-label="Rule proof timeline">
+          <div class="floor-heading">
+            <h2>Generation path</h2>
+            <p>Candidate diagrams become accepted knots only after rule gates pass.</p>
+          </div>
+          <ol id="proofTimeline" class="timeline"></ol>
+        </section>
+      </main>
+
+      <aside class="inspector" aria-label="Selected knot inspector">
+        <div class="inspector-head">
+          <p class="eyeless">Selected knot</p>
+          <h2 id="selectedName">3_1</h2>
+          <p id="selectedTitle">Trefoil</p>
+        </div>
+
+        <div class="viewer">
+          <canvas id="knotCanvas" width="560" height="420" aria-label="3D knot preview"></canvas>
+        </div>
+
+        <div id="selectedTags" class="tag-row"></div>
+
+        <div class="inspector-section">
+          <h3>Invariants</h3>
+          <dl id="invariantList" class="invariant-list"></dl>
+        </div>
+
+        <div class="inspector-section">
+          <h3>Prime rule check</h3>
+          <ul id="ruleCheck" class="check-list"></ul>
+        </div>
+
+        <div class="inspector-section">
+          <h3>Atlas note</h3>
+          <p id="atlasNote" class="note"></p>
+        </div>
+      </aside>
+    </div>
+
+    <template id="knotCellTemplate">
+      <button class="knot-cell" type="button">
+        <span class="cell-header">
+          <span class="knot-id"></span>
+          <span class="crossing-badge"></span>
+        </span>
+        <span class="mini-diagram" aria-hidden="true"></span>
+        <span class="cell-footer">
+          <span class="family"></span>
+          <span class="det"></span>
+        </span>
+      </button>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
